@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <div class="perfil-contenedor">
+    <h1>Vox</h1>
+    <img src="gatito3.jpg" alt="Vox, el gato"
+    
+    <h3>¿Quién es Vox?</h3>
+    <p>Vox es un gato sumamente curioso, compañero y el rey de la casa. le encanta dormir largas siestas.</p>
+    
+    <!-- Este botón le permite al usuario regresar a tu lista de mascotas -->
+    <a href="index.html" class="boton-volver">← Volver al inicio</a>
+	<button class="boton-premio" onclick="darPremio('vox')">Give Snack 🍖</button>
+	 <p>Premios recibidos: <span id="contador-vox">0</span></p>
+	 
+	 <div class="contenedor-logros" id="logros-vox"></div>
+  </div>
+  </div>
+  <script>
+  // 1. Cargamos los premios desde el almacenamiento del navegador [1]
+    let premios = {
+      negra: parseInt(localStorage.getItem('premios-negra')) || 0
+    };
+
+    // Registro para que las alertas de medallas salten una única vez [1]
+    let alertasMostradas = {
+      negra: JSON.parse(localStorage.getItem('alertas-negra')) || { bronce: false, plata: false, oro: false }
+    };
+
+    // 2. Al cargar la página por completo, mostramos los puntos y medallas guardados [1]
+    window.onload = function() {  
+      document.getElementById("contador-negra").innerText = premios.negra;
+      verificarLogros('negra');
+    };
+
+    // 3. Función para sumar premios y guardar permanentemente [1]
+    function darPremio(mascota) {
+      premios[mascota]++;
+      localStorage.setItem('premios-' + mascota, premios[mascota]);
+      document.getElementById("contador-" + mascota).innerText = premios[mascota];
+      verificarLogros(mascota);
+    }
+
+    // 4. Sistema de Logros Inteligente [1]
+    function verificarLogros(mascota) {
+      let contenedor = document.getElementById("logros-" + mascota);
+      if (!contenedor) return;
+
+      let htmlMedallas = "";
+      let nombreMascota = mascota.toUpperCase();
+
+      // Condición Bronce (5) [1]
+      if (premios[mascota] >= 5) {
+        htmlMedallas += '<span class="medalla" title="¡Buen amigo! (5 premios)">自由🥉</span>';
+        if (!alertasMostradas[mascota].bronce) {
+          alertasMostradas[mascota].bronce = true;
+          localStorage.setItem('alertas-' + mascota, JSON.stringify(alertasMostradas[mascota]));
+          alert(`¡Logro Desbloqueado! 🥉\nHas ganado la medalla de BRONCE por cuidar tan bien a ${nombreMascota}.`);
+        }
+      }
+
+      // Condición Plata (15) [1]
+      if (premios[mascota] >= 15) {
+        htmlMedallas += '<span class="medalla" title="¡Gran cuidador! (15 premios)">🥈</span>';
+        if (!alertasMostradas[mascota].plata) {
+          alertasMostradas[mascota].plata = true;
+          localStorage.setItem('alertas-' + mascota, JSON.stringify(alertasMostradas[mascota]));
+          alert(`¡Logro Desbloqueado! 🥈\n¡Increíble! Medalla de PLATA para el mejor amigo de ${nombreMascota}.`);
+        }
+      }
+
+      // Condición Oro (30) [1]
+      if (premios[mascota] >= 30) {
+        htmlMedallas += '<span class="medalla" title="¡Mejor amigo por siempre! (30 premios)">🥇</span>';
+        if (!alertasMostradas[mascota].oro) {
+          alertasMostradas[mascota].oro = true;
+          localStorage.setItem('alertas-' + mascota, JSON.stringify(alertasMostradas[mascota]));
+          alert(`🏆 ¡MÁXIMO LOGRO DESBLOQUEADO! 🥇\n¡Eres oficialmente el Mejor Amigo por Siempre de ${nombreMascota}! 🎉🐾`);
+        }
+      }
+
+      // Colocamos las medallas ganadas en el contenedor [1]
+      contenedor.innerHTML = htmlMedallas;
+    }
+</script>
+</body>
+<!--<script>
+  function darPremio() {
+    alert("¡Le has dado un delicioso snack a Vox! 🐾❤️ (te ha regalado un dulce ronroneo)");
+  }
+</script>--!>
+
+</html>

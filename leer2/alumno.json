@@ -1,0 +1,14 @@
+[
+  {
+    "nombre": "yarelis",
+    "apellido": "camacaro",
+    "edad": 34,
+    "nota": 10
+  },
+  {
+    "nombre": "juan",
+    "apellido": "jauregui",
+    "edad": 38,
+    "nota": 5
+  }
+]
